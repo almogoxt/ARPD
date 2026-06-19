@@ -27,10 +27,9 @@ def pp(packet):
         if packet[scapy.ARP].op == 2:
             src_ip = packet[scapy.ARP].psrc
             src_mac = packet[scapy.ARP].hwsrc
-            if src_ip == GATEWAY_IP:
-                if src_mac.lower() != GATEWAY_MAC.lower():
-                    print(f"ARP Spoofing Detected, Source of attack: {src_mac} \n")
-                    print(f"Source IP of the attack: {src_ip}")
+            if src_mac.lower() != GATEWAY_MAC.lower() and src_ip == GATEWAY_IP:
+                print(f"ARP Spoofing Detected, Source of attack: {src_mac} \n")
+                print(f"Source IP of the attack: {src_ip}")
 
 try:
     scapy.sniff(iface=INTERFACE, filter="arp", store=False, prn=pp)
